@@ -27,7 +27,8 @@ public class TaskService {
     public List<ResponseTaskDto> listTasks(){
         List<ResponseTaskDto> listTasks = this.taskRepository.findAll()
                 .stream().map(task -> new ResponseTaskDto(task.getId(), task.getName(), task.getDescription(), task.getAccomplished(), task.getPriority()))
-                .sorted(Comparator.comparing(ResponseTaskDto::priority).reversed())
+                .sorted(Comparator.comparing(ResponseTaskDto::priority).reversed()
+                        .thenComparing(ResponseTaskDto::name))
                 .toList();
 
         return listTasks;
