@@ -6,6 +6,7 @@ import com.example.todoList.dto.ResponseTaskDto;
 import com.example.todoList.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -25,8 +26,9 @@ public class TaskService {
 
     public List<ResponseTaskDto> listTasks(){
         List<ResponseTaskDto> listTasks = this.taskRepository.findAll()
-                .stream().map(task -> new ResponseTaskDto(task.getId(), task.getName(), task.getDescription(), task.getAccomplished(), task.getPriority())).
-                toList();
+                .stream().map(task -> new ResponseTaskDto(task.getId(), task.getName(), task.getDescription(), task.getAccomplished(), task.getPriority()))
+                .sorted(Comparator.comparing(ResponseTaskDto::priority).reversed())
+                .toList();
 
         return listTasks;
     }
