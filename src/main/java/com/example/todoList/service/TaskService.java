@@ -65,4 +65,14 @@ public class TaskService {
 
         return task;
     }
+
+    public void deleteById(UUID id) {
+        Optional<Task> task = this.taskRepository.findById(id);
+
+        if (!task.isPresent()) {
+            throw new RuntimeException(); // tratar com not found exception
+        }
+
+        this.taskRepository.deleteById(id);
+    }
 }

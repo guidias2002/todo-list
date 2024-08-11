@@ -49,5 +49,14 @@ public class TaskController {
         Optional<Task> task = this.taskService.getTaskById(id);
 
         return task.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteById(@PathVariable UUID id){
+        this.taskService.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
