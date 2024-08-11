@@ -6,6 +6,7 @@ import com.example.todoList.dto.ResponseTaskDto;
 import com.example.todoList.dto.UpdateTaskDto;
 import com.example.todoList.service.TaskService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class TaskController {
     public ResponseEntity createTask(@RequestBody @Valid RequestTaskDto data) {
         this.taskService.createTask(data);
 
-        return ResponseEntity.status(201).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
