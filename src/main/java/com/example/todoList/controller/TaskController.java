@@ -50,4 +50,18 @@ public class TaskController {
 
         return task.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteTaskById(@PathVariable UUID id) {
+        this.taskService.deleteTaskById(id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/complete")
+    public ResponseEntity taskCompleted(@PathVariable UUID id) {
+        this.taskService.taskCompleted(id);
+
+        return ResponseEntity.ok().build();
+    }
 }
