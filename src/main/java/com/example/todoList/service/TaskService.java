@@ -24,6 +24,7 @@ public class TaskService {
     public void createTask(RequestTaskDto data) {
         Task newTask = new Task(data);
 
+
         this.taskRepository.save(newTask);
     }
 
@@ -66,13 +67,21 @@ public class TaskService {
         return task;
     }
 
-    public void deleteById(UUID id) {
+    public void deleteTaskById(UUID id){
         Optional<Task> task = this.taskRepository.findById(id);
 
-        if (!task.isPresent()) {
-            throw new RuntimeException(); // tratar com not found exception
+        if(!task.isPresent()){
+            throw new RuntimeException("Task not found");
         }
 
         this.taskRepository.deleteById(id);
+    }
+
+    public void taskCompleted(UUID id){
+        Task task = this.taskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException());
+
+        task.setAccomplished(true);
+        this.taskRepository.save(task);
     }
 }

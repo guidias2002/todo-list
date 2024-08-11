@@ -5,6 +5,7 @@ import com.example.todoList.dto.ResponseTaskDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,17 +24,17 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Description is required")
     private String description;
 
     private Boolean accomplished = false;
 
     @Min(1)
+    @NotNull
     private Integer priority;
-
 
     public Task(RequestTaskDto data){
         this.name = data.name();

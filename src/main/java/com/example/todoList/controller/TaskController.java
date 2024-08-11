@@ -6,6 +6,7 @@ import com.example.todoList.dto.ResponseTaskDto;
 import com.example.todoList.dto.UpdateTaskDto;
 import com.example.todoList.service.TaskService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class TaskController {
     public ResponseEntity createTask(@RequestBody @Valid RequestTaskDto data) {
         this.taskService.createTask(data);
 
-        return ResponseEntity.status(201).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
@@ -54,9 +55,16 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteById(@PathVariable UUID id){
-        this.taskService.deleteById(id);
+    public ResponseEntity deleteTaskById(@PathVariable UUID id) {
+        this.taskService.deleteTaskById(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/complete")
+    public ResponseEntity taskCompleted(@PathVariable UUID id) {
+        this.taskService.taskCompleted(id);
+
+        return ResponseEntity.ok().build();
     }
 }
