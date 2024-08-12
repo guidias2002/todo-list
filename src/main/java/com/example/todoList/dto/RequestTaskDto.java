@@ -1,4 +1,13 @@
 package com.example.todoList.dto;
 
-public record RequestTaskDto(String name, String description, Integer priority) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record RequestTaskDto(
+        @NotBlank(message = "Name is required")
+        String name,
+        @NotBlank(message = "Description is required")
+        String description,
+        @NotNull(message = "Priority is required")
+        Integer priority) {
 }

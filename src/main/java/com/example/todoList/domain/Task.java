@@ -32,8 +32,7 @@ public class Task {
 
     private Boolean accomplished = false;
 
-    @Min(1)
-    @NotNull
+    @NotNull(message = "Priority is required")
     private Integer priority;
 
     public Task(RequestTaskDto data){

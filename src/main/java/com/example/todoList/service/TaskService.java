@@ -24,7 +24,6 @@ public class TaskService {
     public void createTask(RequestTaskDto data) {
         Task newTask = new Task(data);
 
-
         this.taskRepository.save(newTask);
     }
 
@@ -84,4 +83,15 @@ public class TaskService {
         task.setAccomplished(true);
         this.taskRepository.save(task);
     }
+
+    public List<ResponseTaskDto> listTaskByCompletionStatus(Boolean value){
+        List<ResponseTaskDto> listTasks = this.taskRepository.findByAccomplished(value)
+                .stream().map(task -> new ResponseTaskDto(task.getId(), task.getName(), task.getDescription(), task.getAccomplished(), task.getPriority()))
+                .sorted(Comparator.comparing(ResponseTaskDto::priority).reversed()
+                        .thenComparing(ResponseTaskDto::name))
+                .toList();
+
+        return listTasks;
+    }
+
 }

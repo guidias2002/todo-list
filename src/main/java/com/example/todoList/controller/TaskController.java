@@ -50,8 +50,6 @@ public class TaskController {
         Optional<Task> task = this.taskService.getTaskById(id);
 
         return task.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-
-
     }
 
     @DeleteMapping("/{id}")
@@ -66,5 +64,19 @@ public class TaskController {
         this.taskService.taskCompleted(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/complete")
+    public ResponseEntity<List<ResponseTaskDto>> listTaskComplete(){
+        List<ResponseTaskDto> accomplishedTrue = this.taskService.listTaskByCompletionStatus(true);
+
+        return ResponseEntity.ok(accomplishedTrue);
+    }
+
+    @GetMapping("/incomplete")
+    public ResponseEntity<List<ResponseTaskDto>> listTaskIncomplete(){
+        List<ResponseTaskDto> accomplishedFalse = this.taskService.listTaskByCompletionStatus(false);
+
+        return ResponseEntity.ok(accomplishedFalse);
     }
 }
