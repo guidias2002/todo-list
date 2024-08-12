@@ -30,6 +30,7 @@ public class Task {
     @NotBlank(message = "Description is required")
     private String description;
 
+    @NotNull(message = "Accomplished is required")
     private Boolean accomplished = false;
 
     @NotNull(message = "Priority is required")

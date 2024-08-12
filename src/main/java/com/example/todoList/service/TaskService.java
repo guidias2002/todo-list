@@ -1,16 +1,16 @@
 package com.example.todoList.service;
 
+import com.example.todoList.config.exceptions.TaskNotFoundException;
+import com.example.todoList.config.exceptions.ValidationException;
 import com.example.todoList.domain.Task;
 import com.example.todoList.dto.RequestTaskDto;
 import com.example.todoList.dto.ResponseTaskDto;
 import com.example.todoList.dto.UpdateTaskDto;
 import com.example.todoList.repository.TaskRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class TaskService {
@@ -39,22 +39,37 @@ public class TaskService {
 
     public void updateTask(UUID id, UpdateTaskDto data){
         Task task = this.taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new TaskNotFoundException());
+
+        Map<String, String> errors = new HashMap();
+
 
         if(data.name() != null){
+            if(data.name().trim().isEmpty()){
+                errors.put("name", "Name cannot be blank");
+            }
+
             task.setName(data.name());
         }
 
         if(data.description() != null){
+            if(data.description().trim().isEmpty()){
+                errors.put("description", "Description cannot be blank");
+            }
+
             task.setDescription(data.description());
         }
 
-        if(data.accomplished() != null){
-            task.setAccomplished(data.accomplished());
+        if(data.priority() != null){
+            if(data.priority() < 1 || data.priority() > 5){
+                errors.put("priority", "Priority must be between 1 and 5");
+            }
+
+            task.setPriority(data.priority());
         }
 
-        if(data.priority() != null){
-            task.setPriority(data.priority());
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors);
         }
 
         this.taskRepository.save(task);
