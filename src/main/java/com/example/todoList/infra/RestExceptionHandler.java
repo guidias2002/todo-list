@@ -15,6 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.HashMap;
@@ -81,5 +82,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         TaskErrorMessage taskErrorMessage = new TaskErrorMessage(HttpStatus.BAD_REQUEST, errors);
 
         return new ResponseEntity<>(taskErrorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<TaskErrorMessage> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", "Invalid request: " + ex.getValue());
+
+        TaskErrorMessage errorResponse = new TaskErrorMessage(HttpStatus.BAD_REQUEST, errors);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
