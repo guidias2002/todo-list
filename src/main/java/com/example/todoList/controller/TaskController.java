@@ -4,6 +4,7 @@ import com.example.todoList.domain.Task;
 import com.example.todoList.dto.RequestTaskDto;
 import com.example.todoList.dto.ResponseTaskDto;
 import com.example.todoList.dto.UpdateTaskDto;
+import com.example.todoList.mapper.TaskMapper;
 import com.example.todoList.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -46,10 +47,10 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskByid(@PathVariable UUID id) {
-        Optional<Task> task = this.taskService.getTaskById(id);
+    public ResponseEntity<ResponseTaskDto> getTaskByid(@PathVariable UUID id) {
+        Task task = this.taskService.getTaskById(id);
 
-        return task.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(TaskMapper.toDto(task));
     }
 
     @DeleteMapping("/{id}")
