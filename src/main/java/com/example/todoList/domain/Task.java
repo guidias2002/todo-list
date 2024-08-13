@@ -1,8 +1,8 @@
 package com.example.todoList.domain;
 
 import com.example.todoList.dto.RequestTaskDto;
-import com.example.todoList.dto.ResponseTaskDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -34,6 +34,8 @@ public class Task {
     private Boolean accomplished = false;
 
     @NotNull(message = "Priority is required")
+    @Min(value = 1, message = "Priority must be between 1 and 5")
+    @Max(value = 5, message = "Priority must be between 1 and 5")
     private Integer priority;
 
     public Task(RequestTaskDto data){
