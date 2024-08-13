@@ -82,20 +82,22 @@ public class TaskService {
     }
 
     public void deleteTaskById(UUID id){
-        Optional<Task> task = this.taskRepository.findById(id);
-
-        if(!task.isPresent()){
-            throw new RuntimeException("Task not found");
-        }
+        Task task = this.taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException());
 
         this.taskRepository.deleteById(id);
     }
 
-    public void taskCompleted(UUID id){
+    public void completeOrReopenTask(UUID id){
         Task task = this.taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new TaskNotFoundException());
 
-        task.setAccomplished(true);
+        if(task.getAccomplished() == true){
+            task.setAccomplished(false);
+        } else {
+            task.setAccomplished(true);
+        }
+
         this.taskRepository.save(task);
     }
 

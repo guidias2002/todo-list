@@ -47,7 +47,7 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseTaskDto> getTaskByid(@PathVariable UUID id) {
+    public ResponseEntity<ResponseTaskDto> getTaskById(@PathVariable UUID id) {
         Task task = this.taskService.getTaskById(id);
 
         return ResponseEntity.ok(TaskMapper.toDto(task));
@@ -62,7 +62,14 @@ public class TaskController {
 
     @PutMapping("/{id}/complete")
     public ResponseEntity taskCompleted(@PathVariable UUID id) {
-        this.taskService.taskCompleted(id);
+        this.taskService.completeOrReopenTask(id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/reopen-task")
+    public ResponseEntity reopenTask(@PathVariable UUID id) {
+        this.taskService.completeOrReopenTask(id);
 
         return ResponseEntity.ok().build();
     }
