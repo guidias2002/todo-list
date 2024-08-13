@@ -7,7 +7,6 @@ import com.example.todoList.dto.RequestTaskDto;
 import com.example.todoList.dto.ResponseTaskDto;
 import com.example.todoList.dto.UpdateTaskDto;
 import com.example.todoList.repository.TaskRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -75,8 +74,9 @@ public class TaskService {
         this.taskRepository.save(task);
     }
 
-    public Optional<Task> getTaskById(UUID id){
-        Optional<Task> task = this.taskRepository.findById(id);
+    public Task getTaskById(UUID id){
+        Task task = this.taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException());
 
         return task;
     }
