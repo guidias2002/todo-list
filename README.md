@@ -17,6 +17,7 @@ Esta API é uma aplicação RESTful desenvolvida em Java utilizando Spring Boot.
 - **Java**: Linguagem de programação utilizada para o desenvolvimento da API.
 - **Spring Boot**: Framework utilizado para simplificar a criação de aplicações Java baseadas em Spring.
 - **Swagger**: Utilizado para gerar a documentação interativa da API.
+- **PostgreSQL**: PostgreSQL é utilizado para armazenar, gerenciar e consultar dados estruturados e relacionais em aplicações de diversas escalas, oferecendo suporte avançado para transações complexas, índices, consultas e extensões personalizadas.
 
 ## Pré-requisitos
 
